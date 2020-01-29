@@ -1,58 +1,63 @@
-let _window = null
-let _millis = 900000 // 15 minutes
+const interpretTime = (timeString) => {
+  const number = parseInt(timeString.slice(0, -1))
+  const unit = timeString.slice(-1)
+  const multiplier = unit == "s" ? 1 : unit == "m" ? 60 : unit == "h" 3600
+  return multiplier * number
+}
 
 const _idle = () => {
 
+  let idleFor = 0
+  let interval = null
+
   const subscribtions = []
-  const trigger = () => subscribtions.forEach(func => func())
+  const trigger = () => subscribtions
+    .forEach(subscribtion => {
+      if (subscribtion.seconds > idleFor && !subscribtion.called) {
+        subscribtion.func()
+        subscribtion.called = true
+      }
+    })
 
-  let idleTimeoutId
-  let ignored = true
-
-  const waitAndTrigger = () => {
-    if (ignored) return
-    if (idleTimeoutId) clearTimeout(idleTimeoutId)
-    idleTimeoutId = _window.setTimeout(trigger, _millis)
+  const reset = () => {
+    idleFor = 0
+    subscribtions.forEach((subscribtion) => {
+      subscribtion.called = false
+    })
   }
 
-  const watch = (millis, __window) => {
-    if (!_window) _window = window === undefined ? __window : window
-    if (millis) _millis = millis
+  const on = (timeString, func) => {
+    subscribtions.push({ seconds: interpretTime(timeString), func, triggered: false })
+  }
 
-    // fails silently
-    if (!_window) return
+  const observe = () => {
+    if (interval) return
 
-    ignored = false
+    window.addEventListener('mousemove', reset, false)
+    window.addEventListener('mousedown', reset, false)
+    window.addEventListener('scroll', reset, false)
+    window.addEventListener('keyup', reset, false)
+    window.addEventListener('touchmove', reset, false)
 
-    _window.addEventListener('mousemove', waitAndTrigger, false)
-    _window.addEventListener('mousedown', waitAndTrigger, false)
-    _window.addEventListener('scroll', waitAndTrigger, false)
-    _window.addEventListener('keyup', waitAndTrigger, false)
-    _window.addEventListener('touchmove', waitAndTrigger, false)
-
-    idleTimeoutId = _window.setTimeout(trigger, millis)
+    interval = setInterval(() => {
+      idleFor++
+      trigger()
+    }, 1000)
   }
 
   const ignore = () => {
-    ignored = true
-    if (idleTimeoutId) clearTimeout(idleTimeoutId)
+    window.removeEventListener('mousemove', reset)
+    window.removeEventListener('mousedown', reset)
+    window.removeEventListener('scroll', reset)
+    window.removeEventListener('keyup', reset)
+    window.removeEventListener('touchmove', reset)
 
-    // fails silently
-    if (!_window) return
-
-    _window.removeEventListener('mousemove', waitAndTrigger)
-    _window.removeEventListener('mousedown', waitAndTrigger)
-    _window.removeEventListener('scroll', waitAndTrigger)
-    _window.removeEventListener('keyup', waitAndTrigger)
-    _window.removeEventListener('touchmove', waitAndTrigger)
-  }
-
-  const on = (func) => {
-    subscribtions.push(func)
+    clearInterval(interval)
+    interval = null
   }
 
   return {
-    watch,
+    observe,
     ignore,
     on
   }

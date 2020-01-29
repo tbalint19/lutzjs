@@ -6,10 +6,10 @@ Idle user checking for frontend applications
 
 __Start monitoring the user__
 ```js
+const idle = require('lutzjs')
+
 $idle.watch()
-
 // or
-
 $idle.watch(5000)
 ```
 
@@ -18,6 +18,7 @@ __Subscribe with a function__
 $idle.on(() => alert('HEY!!!'))
 ```
 
+__Ignore (when watching a video for example)__
 ```js
 $idle.ignore()
 ```

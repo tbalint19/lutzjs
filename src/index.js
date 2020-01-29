@@ -72,6 +72,7 @@ const _idle = () => {
   return {
     observe,
     ignore,
+    ignoreSubscribtion,
     on
   }
 

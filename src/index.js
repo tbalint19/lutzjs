@@ -13,7 +13,7 @@ const _idle = () => {
   const subscribtions = []
   const trigger = () => subscribtions
     .forEach(subscribtion => {
-      if (subscribtion.seconds > idleFor && !subscribtion.called) {
+      if (subscribtion.seconds < idleFor && !subscribtion.called) {
         subscribtion.func()
         subscribtion.called = true
       }

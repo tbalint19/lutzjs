@@ -5,6 +5,13 @@ const interpretTime = (timeString) => {
   return multiplier * number
 }
 
+const uuidv4 = () => {
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+    var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+    return v.toString(16);
+  })
+}
+
 const _idle = () => {
 
   let idleFor = 0
@@ -27,8 +34,13 @@ const _idle = () => {
   }
 
   const on = (timeString, func) => {
-    subscribtions.push({ seconds: interpretTime(timeString), func, triggered: false })
+    const id = uuidv4()
+    subscribtions.push({ seconds: interpretTime(timeString), func, triggered: false, id })
+    return id
   }
+
+  const ignoreSubscribtion = (id) => subscribtions = subscribtions
+    .filter(subscribtion => subscribtion.id != id)
 
   const observe = () => {
     if (interval) return

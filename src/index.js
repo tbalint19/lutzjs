@@ -21,7 +21,7 @@ const idle = () => {
   _window.addEventListener('keyup', waitAndTrigger, false)
   _window.addEventListener('touchmove', waitAndTrigger, false)
 
-  const watch = (__window, millis) => {
+  const watch = (millis, __window) => {
     if (!_window) _window = window === undefined ? __window : window
     if (mil) _millis = millis
 

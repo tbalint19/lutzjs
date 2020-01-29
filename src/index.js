@@ -17,7 +17,7 @@ const _idle = () => {
   let idleFor = 0
   let interval = null
 
-  const subscribtions = []
+  let subscribtions = []
   const trigger = () => subscribtions
     .forEach(subscribtion => {
       if (subscribtion.seconds < idleFor && !subscribtion.called) {
@@ -39,8 +39,9 @@ const _idle = () => {
     return id
   }
 
-  const ignoreSubscribtion = (id) => subscribtions = subscribtions
-    .filter(subscribtion => subscribtion.id != id)
+  const ignoreSubscribtion = (id) => {
+    subscribtions = subscribtions.filter(subscribtion => subscribtion.id != id)
+  }
 
   const observe = () => {
     if (interval) return

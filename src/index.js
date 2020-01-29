@@ -1,7 +1,7 @@
 const interpretTime = (timeString) => {
   const number = parseInt(timeString.slice(0, -1))
   const unit = timeString.slice(-1)
-  const multiplier = unit == "s" ? 1 : unit == "m" ? 60 : unit == "h" 3600
+  const multiplier = unit == "s" ? 1 : unit == "m" ? 60 : unit == "h" ? 3600 : 1
   return multiplier * number
 }
 

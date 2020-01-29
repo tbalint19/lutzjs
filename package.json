@@ -1,7 +1,7 @@
 {
-  "name": "npm-module-boilerplate",
-  "version": "1.0.0",
-  "description": "Boilerplate for npm modules with ES6 features and syntax",
+  "name": "lutzjs",
+  "version": "0.0.1",
+  "description": "Minimalistic idle detection for frontend applications",
   "main": "./lib/index.js",
   "scripts": {
     "clean": "rimraf lib",
@@ -21,21 +21,18 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/flexdinesh/npm-module-boilerplate.git"
+    "url": "git+https://github.com/tbalint19/lutzjs.git"
   },
   "keywords": [
-    "boilerplate",
-    "npm",
-    "module",
-    "node",
-    "javascript"
+    "idle",
+    "inactive",
+    "reactive"
   ],
-  "author": "Dinesh Pandiyan <flexdinesh@gmail.com>",
+  "author": "TBalint19 <tothbalint719@gmail.com>",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/flexdinesh/npm-module-boilerplate/issues"
   },
-  "homepage": "https://github.com/flexdinesh/npm-module-boilerplate#readme",
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-eslint": "^10.0.1",
